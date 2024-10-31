@@ -1,5 +1,6 @@
 package com.example.loginapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -18,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText editTextRegisterFullName, editTextRegisterEmail, editTextRegisterDoB, editTextRegisterMobile, editTextRegisterPwd, editTextRegisterConfirmPwd;
@@ -139,9 +141,28 @@ public class RegisterActivity extends AppCompatActivity {
 private void registerUser(String textFullName, String textEmail, String textDoB, String textGender, String textMobile, String textPwd)
 
 FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.createUserWithEmailAndPassword(textEmail, textPwd).addonCompleteListener(RegisterActivity .this,new OnCompleteListener<authResult>() {
+        auth.
+
+createUserWithEmailAndPassword(textEmail, textPwd).
+
+addonCompleteListener(RegisterActivity .this,new OnCompleteListener<authResult>() {
     @Override
-    public void onComplete (@NonNull Task < AuthResult > task)
+    public void onComplete (@NonNull Task < AuthResult > task) {
+        if (task.isSuccessful()) {
+            Toast.makeText(RegisterActivity.this, "user registered successfully", Toast.LENGTH_SHORT).show();
+            FirebaseUser firebaseUser = auth.getCurrentUser();
+
+            // send verification Email
+            firebaseUser.sendEmailVerification();
+            //Open User Profie after successful registration
+            Intent intent = new Intent(RegisterActivity.this, UserProfileActivity.class);
+            // to prevent user from returning back to register activity on pressing back button after registration
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();  // to close register activity
+        }
+
+    }
 })
 
 

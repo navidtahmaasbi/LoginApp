@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Please enter your details to Register on the App"
+            android:text="Sign Up"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 

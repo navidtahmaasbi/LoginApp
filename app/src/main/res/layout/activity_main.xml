@@ -7,15 +7,17 @@
     android:background="@color/lightgray"
     tools:context=".MainActivity">
 
+
     <!-- Username EditText -->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:padding="15dp" />
+        android:background="@drawable/border"
+        android:padding="15dp">
 
-      <ImageView
+    <ImageView
         android:id="@+id/imageview_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,6 +56,7 @@
         android:layout_marginTop="100dp"
         android:layout_marginRight="70dp"
         android:text="register" />
+    </RelativeLayout>
 
 
 </ScrollView>

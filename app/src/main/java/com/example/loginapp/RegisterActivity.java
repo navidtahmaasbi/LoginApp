@@ -1,22 +1,21 @@
 package com.example.loginapp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,14 +29,18 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText editTextRegisterFullName, editTextRegisterEmail, editTextRegisterDoB, editTextRegisterMobile, editTextRegisterPwd, editTextRegisterConfirmPwd;
     private ProgressBar progressBar;
     private RadioGroup radioGroupRegisterGender;
     private RadioButton radioButtonRegisterGenderSelected;
+    private DatePickerDialog picker;
     private static final String TAG = "RegisterActivity";
 
     @Override
@@ -61,6 +64,27 @@ public class RegisterActivity extends AppCompatActivity {
         radioGroupRegisterGender.clearCheck();
 
         //setting up DatePicker on Edittext
+        editTextRegisterDoB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
+
+                // Date Picker Dialog
+                picker = new DatePickerDialog(RegisterActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayofMonth) {
+                        editTextRegisterDoB.setText(dayofMonth + "/" + (month + 1) + "/" + year);
+
+                    }
+
+                }, year, day, month);
+                picker.show();
+
+            }
+        });
 
 
         Button buttonRegister = findViewById(R.id.button_register);
@@ -81,10 +105,10 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 //Validate Mobile Number using Matcher and Pattern (Regular Expression)
-                String mobileRegex = "[9][0-9][9]";  //first no. can be {6,8,9} and rest 9 nos. can be any no.
-                Matcher mobileMatcher;
-                Pattern mobilePattern = Pattern.compile(mobileRegex);
-                mobileMatcher = mobilePattern.matcher(textMobile);
+//                String mobileRegex = "\\+98[0-9]{10}"; //first no. can be {6,8,9} and rest 9 nos. can be any no.
+//                Matcher mobileMatcher;
+//                Pattern mobilePattern = Pattern.compile(mobileRegex);
+//                mobileMatcher = mobilePattern.matcher(textMobile);
 
                 if (TextUtils.isEmpty(textFullName)) {
                     Toast.makeText(RegisterActivity.this, "write your goddamn name motherfucker", Toast.LENGTH_SHORT).show();
@@ -113,21 +137,21 @@ public class RegisterActivity extends AppCompatActivity {
 
                 } else if (TextUtils.isEmpty(textMobile)) {
                     Toast.makeText(RegisterActivity.this, "write your goddamn mobile motherfucker", Toast.LENGTH_SHORT).show();
-                    editTextRegisterMobile.setError("full name is required bitch");
+                    editTextRegisterMobile.setError("valid mobile is required bitch");
                     editTextRegisterMobile.requestFocus();
 
-                } else if (textMobile.length() != 10) {
-                    Toast.makeText(RegisterActivity.this, "write your goddamn mobile motherfucker", Toast.LENGTH_SHORT).show();
-                    editTextRegisterMobile.setError("10 digit mobile bitch");
-                    editTextRegisterMobile.requestFocus();
+                }
+//                else if (textMobile.length() != 10) {
+//                    Toast.makeText(RegisterActivity.this, "write your goddamn mobile motherfucker", Toast.LENGTH_SHORT).show();
+//                    editTextRegisterMobile.setError("10 digit mobile bitch");
+//                    editTextRegisterMobile.requestFocus();}
 
-                }else if(!mobileMatcher.find()){
-                    Toast.makeText(RegisterActivity.this, "Re Enter Mobile No.", Toast.LENGTH_SHORT).show();
-                    editTextRegisterMobile.setError("Mobile No is not valid");
-                    editTextRegisterMobile.requestFocus();
+//                else if(!mobileMatcher.find()){
+//                    Toast.makeText(RegisterActivity.this, "Re Enter Mobile No.", Toast.LENGTH_SHORT).show();
+//                    editTextRegisterMobile.setError("Mobile No is not valid");
+//                    editTextRegisterMobile.requestFocus();}
 
-
-                } else if (textPwd.length() < 6) {
+                else if (textPwd.length() < 6) {
                     Toast.makeText(RegisterActivity.this, "6 digit password motherfucker", Toast.LENGTH_SHORT).show();
                     editTextRegisterPwd.setError("weak password bitch");
                     editTextRegisterPwd.requestFocus();
@@ -165,75 +189,43 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     //Register user by the given credentials
-    private void registerUser(String textFullName, String textEmail, String textDoB, String textGender, String textMobile, String textPwd) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        // Create user Profile
-        auth.createUserWithEmailAndPassword(textEmail, textPwd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+    private void registerUser(String textFullName, String textEmail, String textDoB, String textMobile, String textGender, String textPwd) {
+
+        AuthService authService = ApiClient.getRetrofitInstance().create(AuthService.class);
+
+        RegisterRequest registerRequest = new RegisterRequest(textFullName, textEmail, textDoB, textMobile, textGender, textPwd);
+
+        authService.register(registerRequest).enqueue(new Callback<AuthResponse>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-//                            Toast.makeText(RegisterActivity.this, "user registered succesfuly", Toast.LENGTH_SHORT).show();
-                    FirebaseUser firebaseUser = auth.getCurrentUser();
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                if (response.isSuccessful()) {
+                    AuthResponse authResponse = response.body();
+                    String token = authResponse.getAccessToken();
 
-                    //Update Display Name of User
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(textFullName).build();
-                    firebaseUser.updateProfile(profileChangeRequest);
+                    SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("token", "Bearer" + token);
+                    editor.apply();
+                    Toast.makeText(RegisterActivity.this, "User registered successfully.", Toast.LENGTH_LONG).show();
 
-
-                    //Enter User Data into the Firebase Realtime Database.
-                    ReadWriteUserDetails writeuserDetails = new ReadWriteUserDetails(textFullName, textDoB, textGender, textMobile);
-
-
-                    //Extracting User reference from DB for "registered users"
-                    DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered Users");
-
-                    referenceProfile.child(firebaseUser.getUid()).setValue(writeuserDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-
-                            if (task.isSuccessful()) {
-                                //send verification Email
-                                firebaseUser.sendEmailVerification();
-                                Toast.makeText(RegisterActivity.this, "user registered succesfuly. Please verify your Email", Toast.LENGTH_SHORT).show();
-
-
-                                //Open User Profile after successful registration
-                                Intent intent = new Intent(RegisterActivity.this, UserProfileActivity.class);
-                                // to prevent user from returning back to register activity on pressing back button after registration
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();  // to close register activity
-                            } else {
-                                try {
-                                    throw task.getException();
-                                } catch (FirebaseAuthWeakPasswordException e) {
-                                    editTextRegisterPwd.setError("Weak Password");
-                                    editTextRegisterPwd.requestFocus();
-                                } catch (FirebaseAuthInvalidCredentialsException e) {
-                                    editTextRegisterPwd.setError("Wrong Email");
-                                    editTextRegisterPwd.requestFocus();
-                                } catch (FirebaseAuthUserCollisionException e) {
-                                    editTextRegisterPwd.setError("User is already existing, use another email");
-                                    editTextRegisterPwd.requestFocus();
-                                } catch (Exception e) {
-                                    Log.e(TAG, e.getMessage());
-                                    Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-
-                                }
-                                progressBar.setVisibility(View.GONE);
-
-
-                            }
-
-
-                        }
-
-
-                    });
+                    Intent intent = new Intent(RegisterActivity.this, UserProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             }
 
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, "Error:" + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
         });
     }
+
+
 }
+
+

@@ -8,6 +8,6 @@ import retrofit2.http.POST;
 import retrofit2.Call;
 
 public interface AuthService {
-    @POST("api/register")
+    @POST("register")
     Call<AuthResponse> register(@Body RegisterRequest registerRequest);
 }

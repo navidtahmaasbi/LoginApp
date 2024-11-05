@@ -184,11 +184,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         AuthService authService = ApiClient.getRetrofitInstance().create(AuthService.class);
 
-        RegisterRequest registerRequest = new RegisterRequest(textFullName, textEmail, textDoB, textMobile, textGender, textPwd);
+        RegisterRequest registerRequest = new RegisterRequest(textFullName, textEmail, textDoB, textGender, textMobile, textPwd);
 
         authService.register(registerRequest).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     AuthResponse authResponse = response.body();
                     assert authResponse != null;
@@ -211,7 +212,8 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<AuthResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(RegisterActivity.this, "Error:" + t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }

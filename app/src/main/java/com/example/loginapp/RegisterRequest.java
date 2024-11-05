@@ -11,9 +11,9 @@ public class RegisterRequest {
     public RegisterRequest(String name,String email,String dob,String gender,String mobile,String password){
         this.name = name;
         this.email = email;
-        this.dob =dob;
-        this.gender =gender;
-        this.mobile =mobile;
-        this.password =password;
+        this.dob = dob;
+        this.gender = gender;
+        this.mobile = mobile;
+        this.password = password;
     }
 }

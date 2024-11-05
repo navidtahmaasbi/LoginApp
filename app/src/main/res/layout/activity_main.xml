@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightgray"
+    android:background="@color/gray"
     tools:context=".MainActivity">
 
 
@@ -24,8 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:adjustViewBounds="true"
-        android:maxHeight="180dp"
-        app:srcCompat="@drawable/ic_logo" />
+        android:maxHeight="180dp" />
 
     <TextView
         android:id="@+id/textview_main_head"
@@ -33,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageview_logo"
         android:layout_marginTop="30dp"
-        android:text="Die motherfucker"
+        android:text="Welcome"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
@@ -53,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/button_login"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="70dp"
         android:text="register" />
     </RelativeLayout>

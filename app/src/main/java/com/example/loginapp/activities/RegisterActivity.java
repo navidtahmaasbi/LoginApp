@@ -1,4 +1,4 @@
-package com.example.loginapp;
+package com.example.loginapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+
+import com.example.loginapp.Web.ApiClient;
+import com.example.loginapp.Web.AuthResponse;
+import com.example.loginapp.Web.AuthService;
+import com.example.loginapp.R;
+import com.example.loginapp.RegisterRequest;
+import com.example.loginapp.UserProfileActivity;
 
 import java.util.Calendar;
 
@@ -182,7 +189,7 @@ public class RegisterActivity extends AppCompatActivity {
     //Register user by the given credentials
     private void registerUser(String textFullName, String textEmail, String textDoB, String textMobile, String textGender, String textPwd) {
 
-        AuthService authService = ApiClient.getRetrofitInstance().create(AuthService.class);
+        AuthService authService = ApiClient.getRetrofitInstance(null).create(AuthService.class);
 
         RegisterRequest registerRequest = new RegisterRequest(textFullName, textEmail, textDoB, textGender, textMobile, textPwd);
 

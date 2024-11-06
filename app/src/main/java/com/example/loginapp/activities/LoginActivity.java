@@ -1,11 +1,10 @@
-package com.example.loginapp;
+package com.example.loginapp.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +17,13 @@ import retrofit2.Response;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.loginapp.Web.ApiClient;
+import com.example.loginapp.Web.AuthResponse;
+import com.example.loginapp.Web.AuthService;
+import com.example.loginapp.LoginRequest;
+import com.example.loginapp.R;
+import com.example.loginapp.UserProfileActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText edittextLoginEmail, edittextLoginPwd;
@@ -66,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginuser(String textEmail, String textPwd) {
-        AuthService authService = ApiClient.getRetrofitInstance().create(AuthService.class);
+        AuthService authService = ApiClient.getRetrofitInstance(null).create(AuthService.class);
 
         LoginRequest loginRequest = new LoginRequest(textEmail, textPwd);
 

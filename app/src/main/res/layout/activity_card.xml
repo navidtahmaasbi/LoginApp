@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".activities.CardActivity">
+
+    <!-- Card Title -->
+    <TextView
+        android:id="@+id/textViewCardTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Card Title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Card Description -->
+    <TextView
+        android:id="@+id/textViewCardDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Card description goes here..."
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCardTitle" />
+
+    <!-- Edit Button (Optional) -->
+    <Button
+        android:id="@+id/buttonEditCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Card"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCardDescription" />
+
+    <!-- Comments Section -->
+    <TextView
+        android:id="@+id/textViewComments"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Comments"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonEditCard" />
+
+    <!-- Comment input area (Optional) -->
+    <EditText
+        android:id="@+id/editTextAddComment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Add a comment..."
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewComments" />
+
+    <!-- Save Comment Button -->
+    <Button
+        android:id="@+id/buttonSaveComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Comment"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextAddComment" />
+
+    <!-- Back Button (Optional) -->
+    <ImageView
+        android:id="@+id/imageViewBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/left"
+        android:contentDescription="Back Button"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

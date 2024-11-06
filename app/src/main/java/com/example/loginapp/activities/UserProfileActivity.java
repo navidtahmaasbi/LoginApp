@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.loginapp.R;
@@ -24,6 +25,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView imageViewProfilePicture;
     private Button buttonSaveChanges, buttonLogout;
     private AuthService authService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class UserProfileActivity extends AppCompatActivity {
         // API call to fetch user profile
         authService.getUserProfile(null).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     User user = response.body();
                     editTextName.setText(user.getName());
@@ -85,10 +87,11 @@ public class UserProfileActivity extends AppCompatActivity {
     private void saveProfileChanges() {
         String updatedName = editTextName.getText().toString();
         String updatedEmail = editTextEmail.getText().toString();
+        String authToken = getSharedPreferences("MyAppPrefs", MODE_PRIVATE).getString("auth_token", null);
 
         User updatedUser = new User(updatedName, updatedEmail); // Ensure User model has this constructor
 
-        authService.updateUserProfile(updatedUser).enqueue(new Callback<Void>() {
+        authService.updateUserProfile(authToken,updatedUser).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {

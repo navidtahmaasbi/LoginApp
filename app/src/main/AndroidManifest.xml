@@ -17,6 +17,9 @@
         <activity android:name=".activities.RegisterActivity"/>
         <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.UserProfileActivity"/>
+        <activity android:name=".activities.BoardActivity"/>
+        <activity android:name=".activities.BoardDetailActivity"/>
+        <activity android:name=".activities.CardActivity"/>
         <activity
             android:name=".activities.MainActivity"
             android:exported="true"

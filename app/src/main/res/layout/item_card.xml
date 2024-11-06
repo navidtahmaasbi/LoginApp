@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="?android:attr/selectableItemBackground"
     android:padding="10dp"
-    android:margin="5dp">
+    android:layout_margin="5dp">
 
     <TextView
         android:id="@+id/textCardTitle"

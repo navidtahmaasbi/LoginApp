@@ -1,5 +1,6 @@
 package com.example.loginapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.loginapp.R;
+import com.example.loginapp.activities.BoardDetailActivity;
 import com.example.loginapp.adapters.BoardAdapter;
 import com.example.loginapp.models.Board;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardFragment extends Fragment {
+public class BoardFragment extends Fragment implements BoardAdapter.OnBoardClickListener {
     private RecyclerView recyclerViewBoards;
     private BoardAdapter boardAdapter;
     private List<Board> boards;
@@ -32,8 +34,15 @@ public class BoardFragment extends Fragment {
          boards = new ArrayList<>();
 
 
-         boardAdapter = new BoardAdapter(boards);
+         boardAdapter = new BoardAdapter(boards,this);
          recyclerViewBoards.setAdapter(boardAdapter);
          return view;
+    }
+
+    @Override
+    public void onBoardClick(Board board){
+        Intent intent = new Intent(getContext(), BoardDetailActivity.class);
+        intent.putExtra("board_name",board.getTitle());
+        startActivity(intent);
     }
 }

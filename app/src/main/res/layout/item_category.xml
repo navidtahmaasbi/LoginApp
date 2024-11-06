@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="16dp"
+    android:background="#444444">
 
     <TextView
-        android:id="@+id/textListTitle"
+        android:id="@+id/categoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category Title"
+        android:text="Category Name"
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCards"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Category Description"
-        android:orientation="vertical" />
 </LinearLayout>

@@ -93,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_LONG).show();
                         // Navigate to the User Profile Activity or another destination
-                        Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
+//                        Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, BoardActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();

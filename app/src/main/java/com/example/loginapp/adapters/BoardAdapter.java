@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.loginapp.Models.Board;
+import com.example.loginapp.models.Board;
 import com.example.loginapp.R;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
 
     @Override
     public BoardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board, parent, false);
         return new BoardViewHolder(view);
     }
 
@@ -35,7 +35,9 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
         return boards.size();
     }
 
-    class BoardViewHolder extends RecyclerView.ViewHolder {
+    public class BoardViewHolder extends RecyclerView.ViewHolder {
+        // Define the views here (e.g., TextView, ImageView)
+
         public BoardViewHolder(View itemView) {
             super(itemView);
         }

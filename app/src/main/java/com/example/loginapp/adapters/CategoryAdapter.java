@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.loginapp.Models.Category;
+import com.example.loginapp.models.Category;
 import com.example.loginapp.R;
 
 import java.util.List;

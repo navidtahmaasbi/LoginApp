@@ -1,4 +1,4 @@
-package com.example.loginapp.Models;
+package com.example.loginapp.models;
 
 public class Task {
     private int id; // Primary Key

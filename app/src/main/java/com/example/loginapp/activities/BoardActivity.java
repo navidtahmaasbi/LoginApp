@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.loginapp.Models.Board;
+import com.example.loginapp.models.Board;
 import com.example.loginapp.R;
 import com.example.loginapp.adapters.BoardAdapter;
 

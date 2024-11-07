@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground">
 
+    <!-- Board Title -->
     <TextView
-        android:id="@+id/textListTitle"
+        android:id="@+id/boardTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category Title"
+        android:text="Board Title"
         android:textSize="18sp"
+        android:textColor="#000"
         android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCards"
+    <!-- Board Description -->
+    <TextView
+        android:id="@+id/boardDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category Description"
-        android:orientation="vertical" />
+        android:text="Board Description"
+        android:textSize="14sp"
+        android:textColor="#666" />
+
 </LinearLayout>

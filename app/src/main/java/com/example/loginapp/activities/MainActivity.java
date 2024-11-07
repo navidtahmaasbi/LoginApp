@@ -20,9 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // set the title
-        getSupportActionBar().setTitle("Firebase App");
-
 
         //open Login Activity
         Button buttonlogin = findViewById(R.id.button_login);

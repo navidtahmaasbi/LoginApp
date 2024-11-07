@@ -25,7 +25,6 @@ import com.example.loginapp.Web.AuthResponse;
 import com.example.loginapp.Web.AuthService;
 import com.example.loginapp.R;
 import com.example.loginapp.RegisterRequest;
-import com.example.loginapp.UserProfileActivity;
 
 import java.util.Calendar;
 

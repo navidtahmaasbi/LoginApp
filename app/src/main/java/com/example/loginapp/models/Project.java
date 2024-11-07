@@ -1,4 +1,4 @@
-package com.example.loginapp.Models;
+package com.example.loginapp.models;
 
 
 

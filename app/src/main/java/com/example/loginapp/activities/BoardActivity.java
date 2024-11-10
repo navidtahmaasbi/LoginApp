@@ -84,6 +84,9 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerViewBoards);
     }
+    Board board = new Board()
+
+
 
     @Override
     public void onBoardClick(Board board){
@@ -103,8 +106,8 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         builder.setPositiveButton("Create", (dialog, which) -> {
             String boardName = boardNameEditText.getText().toString().trim();
             if (!boardName.isEmpty()) {
-                Board newBoard = new Board(boardName, "Description of" + boardName);
-                boards.add(newBoard);
+                Board board = new Board(boardName, "Description of" + boardName);
+                boards.add(board);
 //                createCategoriesForBoard(newBoard);
                 boardAdapter.notifyItemInserted(boards.size()-1);
 //                boardAdapter.notifyDataSetChanged();

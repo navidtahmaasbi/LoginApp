@@ -28,59 +28,58 @@ public interface AuthService {
     @POST("login")
     Call<AuthResponse> login(@Body LoginRequest loginRequest);
 
-    @GET("users/{id}/boards")
-    Call<List<Board>> getBoards(@Path("id") int userId, @Header("Authorization") String authToken);
+    // Board Routes
+    @GET("users/{userId}/boards")
+    Call<List<Board>> getBoards(@Path("userId") int userId, @Header("Authorization") String authToken);
 
-    @POST("users/{id}/boards")
-    Call<Board> createBoard(@Path("id") int userId, @Body Board board, @Header("Authorization") String authToken);
+    @POST("users/{userId}/boards")
+    Call<Board> createBoard(@Path("userId") int userId, @Body Board board, @Header("Authorization") String authToken);
 
-    @GET("boards/{id}")
-    Call<Board> getBoard(@Path("id") int boardId, @Header("Authorization") String authToken);
+    @GET("boards/{boardId}")
+    Call<Board> getBoard(@Path("boardId") int boardId, @Header("Authorization") String authToken);
 
-    @PUT("boards/{id}")
-    Call<Board> updateBoard(@Path("id") int boardId, @Body Board board, @Header("Authorization") String authToken);
+    @PUT("boards/{boardId}")
+    Call<Board> updateBoard(@Path("boardId") int boardId, @Body Board board, @Header("Authorization") String authToken);
 
-    @DELETE("boards/{id}")
-    Call<Void> deleteBoard(@Path("id") int boardId, @Header("Authorization") String authToken);
+    @DELETE("boards/{boardId}")
+    Call<Void> deleteBoard(@Path("boardId") int boardId, @Header("Authorization") String authToken);
 
     // Category Routes
-    @GET("boards/{id}/categories")
-    Call<List<Category>> getCategories(@Path("id") int boardId, @Header("Authorization") String authToken);
+    @GET("boards/{boardId}/categories")
+    Call<List<Category>> getCategories(@Path("boardId") int boardId, @Header("Authorization") String authToken);
 
-    @POST("boards/{id}/categories")
-    Call<Category> createCategory(@Path("id") int boardId, @Body Category category, @Header("Authorization") String authToken);
+    @POST("boards/{boardId}/categories")
+    Call<Category> createCategory(@Path("boardId") int boardId, @Body Category category, @Header("Authorization") String authToken);
 
-    @GET("boards/{id}/categories/{id}")
-    Call<Category> getCategory(@Path("id") int boardId, @Path("id") int categoryId, @Header("Authorization") String authToken);
+    @GET("boards/{boardId}/categories/{categoryId}")
+    Call<Category> getCategory(@Path("boardId") int boardId, @Path("categoryId") int categoryId, @Header("Authorization") String authToken);
 
-    @PUT("boards/{id}/categories/{id}")
-    Call<Category> updateCategory(@Path("id") int boardId, @Path("id") int categoryId, @Body Category category, @Header("Authorization") String authToken);
+    @PUT("boards/{boardId}/categories/{categoryId}")
+    Call<Category> updateCategory(@Path("boardId") int boardId, @Path("categoryId") int categoryId, @Body Category category, @Header("Authorization") String authToken);
 
-    @DELETE("boards/{id}/categories/{id}")
-    Call<Void> deleteCategory(@Path("id") int boardId, @Path("id") int categoryId, @Header("Authorization") String authToken);
+    @DELETE("boards/{boardId}/categories/{categoryId}")
+    Call<Void> deleteCategory(@Path("boardId") int boardId, @Path("categoryId") int categoryId, @Header("Authorization") String authToken);
 
     // Card Routes
-    @GET("categories/{id}/cards")
-    Call<List<Card>> getCards(@Path("id") int categoryId, @Header("Authorization") String authToken);
+    @GET("categories/{categoryId}/cards")
+    Call<List<Card>> getCards(@Path("categoryId") int categoryId, @Header("Authorization") String authToken);
 
-    @POST("categories/{id}/cards")
-    Call<Card> createCard(@Path("id") int categoryId, @Body Card card, @Header("Authorization") String authToken);
+    @POST("categories/{categoryId}/cards")
+    Call<Card> createCard(@Path("categoryId") int categoryId, @Body Card card, @Header("Authorization") String authToken);
 
-    @GET("categories/{id}/cards/{id}")
-    Call<Card> getCard(@Path("id") int categoryId, @Path("id") int cardId, @Header("Authorization") String authToken);
+    @GET("categories/{categoryId}/cards/{cardId}")
+    Call<Card> getCard(@Path("categoryId") int categoryId, @Path("cardId") int cardId, @Header("Authorization") String authToken);
 
-    @PUT("categories/{id}/cards/{id}")
-    Call<Card> updateCard(@Path("id") int categoryId, @Path("id") int cardId, @Body Card card, @Header("Authorization") String authToken);
+    @PUT("categories/{categoryId}/cards/{cardId}")
+    Call<Card> updateCard(@Path("categoryId") int categoryId, @Path("cardId") int cardId, @Body Card card, @Header("Authorization") String authToken);
 
-    @DELETE("categories/{id}/cards/{id}")
-    Call<Void> deleteCard(@Path("id") int categoryId, @Path("id") int cardId, @Header("Authorization") String authToken);
+    @DELETE("categories/{categoryId}/cards/{cardId}")
+    Call<Void> deleteCard(@Path("categoryId") int categoryId, @Path("cardId") int cardId, @Header("Authorization") String authToken);
 
+    // User Profile Routes
     @GET("user/profile")
     Call<User> getUserProfile(@Header("Authorization") String authToken);
 
-    @POST("user/Profile")
+    @POST("user/profile")
     Call<Void> updateUserProfile(@Header("Authorization") String authToken, @Body User updatedUser);
-
-
-
 }

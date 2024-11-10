@@ -13,9 +13,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.loginapp.BoardRequest;
 import com.example.loginapp.models.Board;
 import com.example.loginapp.R;
 import com.example.loginapp.adapters.BoardAdapter;
+import com.example.loginapp.repository.Repository;
+import com.example.loginapp.repository.RepositoryCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
     private BoardAdapter boardAdapter;
     private List<Board> boards;
     private Button buttonCreateBoard;
+    private Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,7 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         boardAdapter = new BoardAdapter(boards,this);
 
         recyclerViewBoards.setAdapter(boardAdapter);
-        recyclerViewBoards.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewBoards.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
 
         if (boards.isEmpty()) {
@@ -55,6 +59,7 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
 
         buttonCreateBoard.setOnClickListener(v -> {
             showCreateBoardDialog();
+
         });
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -83,8 +88,27 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerViewBoards);
+
     }
-    Board board = new Board()
+    private void createBoardRequest(int userId, Board board, String authToken){
+        repository.createBoard(userId, board, authToken, new RepositoryCallback<Board>() {
+            @Override
+            public void onSuccess(Board data) {
+                boards.add(board);
+                boardAdapter.notifyItemInserted(boards.size()-1);
+                Toast.makeText(BoardActivity.this, "Board Created",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(BoardActivity.this, "Error creating board",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        recyclerViewBoards.setVisibility(RecyclerView.VISIBLE);
+        buttonCreateBoard.setVisibility(RecyclerView.VISIBLE);
+    }
+
 
 
 
@@ -101,19 +125,25 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         builder.setTitle("Create New Board");
 
         final EditText boardNameEditText = new EditText(this);
+        final EditText boardDescriptionEditText = new EditText(this);
         builder.setView(boardNameEditText);
+        builder.setView(boardDescriptionEditText);
 
         builder.setPositiveButton("Create", (dialog, which) -> {
             String boardName = boardNameEditText.getText().toString().trim();
+            String boardDescription = boardDescriptionEditText.getText().toString().trim();
             if (!boardName.isEmpty()) {
-                Board board = new Board(boardName, "Description of" + boardName);
-                boards.add(board);
+                BoardRequest boardRequest = new BoardRequest(boardName,boardDescription);
+                int userId = getuserId();
+                String authToken = getAuthToken();
+//                Board board = new Board(boardName, "Description of" + boardName);
+//                boards.add(board);
 //                createCategoriesForBoard(newBoard);
-                boardAdapter.notifyItemInserted(boards.size()-1);
+//                boardAdapter.notifyItemInserted(boards.size()-1);
 //                boardAdapter.notifyDataSetChanged();
+                createBoardRequest(userId,boardRequest,authToken);
 
-                recyclerViewBoards.setVisibility(RecyclerView.VISIBLE);
-                buttonCreateBoard.setVisibility(RecyclerView.VISIBLE);
+
                 Toast.makeText(BoardActivity.this, "Board Created", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(BoardActivity.this, "Please enter a board name", Toast.LENGTH_SHORT).show();

@@ -30,7 +30,7 @@ public class BoardDetailActivity extends AppCompatActivity {
         recyclerViewCategories = findViewById(R.id.recyclerViewCategories);
 
         if (recyclerViewCategories != null) {
-            recyclerViewCategories.setLayoutManager(new LinearLayoutManager(this));
+            recyclerViewCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         }
 
         // Retrieve the board name from the Intent and set it to boardTitle
@@ -47,7 +47,7 @@ public class BoardDetailActivity extends AppCompatActivity {
 
         // Setup RecyclerView with CategoryAdapter
         categoryAdapter = new CategoryAdapter(categories);
-        recyclerViewCategories.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewCategories.setAdapter(categoryAdapter);
     }
 }

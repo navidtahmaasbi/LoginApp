@@ -40,6 +40,7 @@ public class ApiClient {
                 // Recreate Retrofit Instance with updated client if authToken changes
                 retrofit = retrofit.newBuilder().client(client).build();
             }
+//            AuthService authService = retrofit.create(AuthService.class);
 
         return retrofit;
     }

@@ -2,6 +2,7 @@ package com.example.loginapp.repository;
 
 import androidx.annotation.NonNull;
 
+import com.example.loginapp.BoardRequest;
 import com.example.loginapp.Web.AuthService;
 import com.example.loginapp.models.Board;
 import com.example.loginapp.models.Category;
@@ -23,8 +24,8 @@ public class Repository {
 
     // Board Methods
 
-    public void getBoards(int userId, String authToken, final RepositoryCallback<List<Board>> callback) {
-        Call<List<Board>> call = authService.getBoards(userId, authToken);
+    public void getBoards(int userId, String token, final RepositoryCallback<List<Board>> callback) {
+        Call<List<Board>> call = authService.getBoards(userId, token);
         call.enqueue(new Callback<List<Board>>() {
             @Override
             public void onResponse(@NonNull Call<List<Board>> call, @NonNull Response<List<Board>> response) {
@@ -42,8 +43,8 @@ public class Repository {
         });
     }
 
-    public void createBoard(int userId, Board board, String authToken, final RepositoryCallback<Board> callback) {
-        Call<Board> call = authService.createBoard(userId, board, authToken);
+    public void createBoard(int userId, Board board, String token, final RepositoryCallback<Board> callback) {
+        Call<Board> call = authService.createBoard(userId, board, token);
         call.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(@NonNull Call<Board> call, @NonNull Response<Board> response) {
@@ -61,8 +62,8 @@ public class Repository {
         });
     }
 
-    public void getBoard(int boardId, String authToken, final RepositoryCallback<Board> callback) {
-        Call<Board> call = authService.getBoard(boardId, authToken);
+    public void getBoard(int boardId, String token, final RepositoryCallback<Board> callback) {
+        Call<Board> call = authService.getBoard(boardId, token);
         call.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(@NonNull Call<Board> call, @NonNull Response<Board> response) {
@@ -80,8 +81,8 @@ public class Repository {
         });
     }
 
-    public void updateBoard(int boardId, Board board, String authToken, final RepositoryCallback<Board> callback) {
-        Call<Board> call = authService.updateBoard(boardId, board, authToken);
+    public void updateBoard(int boardId, Board board, String token, final RepositoryCallback<Board> callback) {
+        Call<Board> call = authService.updateBoard(boardId, board, token);
         call.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(@NonNull Call<Board> call, @NonNull Response<Board> response) {
@@ -99,8 +100,8 @@ public class Repository {
         });
     }
 
-    public void deleteBoard(int boardId, String authToken, final RepositoryCallback<Void> callback) {
-        Call<Void> call = authService.deleteBoard(boardId, authToken);
+    public void deleteBoard(int boardId, String token, final RepositoryCallback<Void> callback) {
+        Call<Void> call = authService.deleteBoard(boardId, token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -120,8 +121,8 @@ public class Repository {
 
     // Category Methods
 
-    public void getCategories(int boardId, String authToken, final RepositoryCallback<List<Category>> callback) {
-        Call<List<Category>> call = authService.getCategories(boardId, authToken);
+    public void getCategories(int boardId, String token, final RepositoryCallback<List<Category>> callback) {
+        Call<List<Category>> call = authService.getCategories(boardId, token);
         call.enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(@NonNull Call<List<Category>> call, @NonNull Response<List<Category>> response) {
@@ -139,8 +140,8 @@ public class Repository {
         });
     }
 
-    public void createCategory(int boardId, Category category, String authToken, final RepositoryCallback<Category> callback) {
-        Call<Category> call = authService.createCategory(boardId, category, authToken);
+    public void createCategory(int boardId, Category category, String token, final RepositoryCallback<Category> callback) {
+        Call<Category> call = authService.createCategory(boardId, category, token);
         call.enqueue(new Callback<Category>() {
             @Override
             public void onResponse(@NonNull Call<Category> call, @NonNull Response<Category> response) {
@@ -158,8 +159,8 @@ public class Repository {
         });
     }
 
-    public void getCategory(int boardId, int categoryId, String authToken, final RepositoryCallback<Category> callback) {
-        Call<Category> call = authService.getCategory(boardId, categoryId, authToken);
+    public void getCategory(int boardId, int categoryId, String token, final RepositoryCallback<Category> callback) {
+        Call<Category> call = authService.getCategory(boardId, categoryId, token);
         call.enqueue(new Callback<Category>() {
             @Override
             public void onResponse(@NonNull Call<Category> call, @NonNull Response<Category> response) {
@@ -177,8 +178,8 @@ public class Repository {
         });
     }
 
-    public void updateCategory(int boardId, int categoryId, Category category, String authToken, final RepositoryCallback<Category> callback) {
-        Call<Category> call = authService.updateCategory(boardId, categoryId, category, authToken);
+    public void updateCategory(int boardId, int categoryId, Category category, String token, final RepositoryCallback<Category> callback) {
+        Call<Category> call = authService.updateCategory(boardId, categoryId, category, token);
         call.enqueue(new Callback<Category>() {
             @Override
             public void onResponse(@NonNull Call<Category> call, @NonNull Response<Category> response) {
@@ -196,8 +197,8 @@ public class Repository {
         });
     }
 
-    public void deleteCategory(int boardId, int categoryId, String authToken, final RepositoryCallback<Void> callback) {
-        Call<Void> call = authService.deleteCategory(boardId, categoryId, authToken);
+    public void deleteCategory(int boardId, int categoryId, String token, final RepositoryCallback<Void> callback) {
+        Call<Void> call = authService.deleteCategory(boardId, categoryId, token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
@@ -217,8 +218,8 @@ public class Repository {
 
     // Card Methods
 
-    public void getCards(int categoryId, String authToken, final RepositoryCallback<List<Card>> callback) {
-        Call<List<Card>> call = authService.getCards(categoryId, authToken);
+    public void getCards(int categoryId, String token, final RepositoryCallback<List<Card>> callback) {
+        Call<List<Card>> call = authService.getCards(categoryId, token);
         call.enqueue(new Callback<List<Card>>() {
             @Override
             public void onResponse(@NonNull Call<List<Card>> call, @NonNull Response<List<Card>> response) {
@@ -236,8 +237,8 @@ public class Repository {
         });
     }
 
-    public void createCard(int categoryId, Card card, String authToken, final RepositoryCallback<Card> callback) {
-        Call<Card> call = authService.createCard(categoryId, card, authToken);
+    public void createCard(int categoryId, Card card, String token, final RepositoryCallback<Card> callback) {
+        Call<Card> call = authService.createCard(categoryId, card, token);
         call.enqueue(new Callback<Card>() {
             @Override
             public void onResponse(@NonNull Call<Card> call, @NonNull Response<Card> response) {
@@ -255,8 +256,8 @@ public class Repository {
         });
     }
 
-    public void getCard(int categoryId, int cardId, String authToken, final RepositoryCallback<Card> callback) {
-        Call<Card> call = authService.getCard(categoryId, cardId, authToken);
+    public void getCard(int categoryId, int cardId, String token, final RepositoryCallback<Card> callback) {
+        Call<Card> call = authService.getCard(categoryId, cardId, token);
         call.enqueue(new Callback<Card>() {
             @Override
             public void onResponse(@NonNull Call<Card> call, @NonNull Response<Card> response) {
@@ -274,8 +275,8 @@ public class Repository {
         });
     }
 
-    public void updateCard(int categoryId, int cardId, Card card, String authToken, final RepositoryCallback<Card> callback) {
-        Call<Card> call = authService.updateCard(categoryId, cardId, card, authToken);
+    public void updateCard(int categoryId, int cardId, Card card, String token, final RepositoryCallback<Card> callback) {
+        Call<Card> call = authService.updateCard(categoryId, cardId, card, token);
         call.enqueue(new Callback<Card>() {
             @Override
             public void onResponse(@NonNull Call<Card> call, @NonNull Response<Card> response) {
@@ -293,8 +294,8 @@ public class Repository {
         });
     }
 
-    public void deleteCard(int categoryId, int cardId, String authToken, final RepositoryCallback<Void> callback) {
-        Call<Void> call = authService.deleteCard(categoryId, cardId, authToken);
+    public void deleteCard(int categoryId, int cardId, String token, final RepositoryCallback<Void> callback) {
+        Call<Void> call = authService.deleteCard(categoryId, cardId, token);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {

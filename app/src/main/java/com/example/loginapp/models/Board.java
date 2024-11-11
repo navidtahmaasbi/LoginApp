@@ -5,22 +5,17 @@ import java.util.List;
 
 public class Board {
     private String title;
-    private String description;
     private List<String> categories;
 
 
 
     // Constructor
-    public Board(String title, String decription){
+    public Board(String title ){
         this.title =title;
-        this.description=decription;
         this.categories = new ArrayList<>();
     }
     public String getTitle(){
         return title;
-    }
-    public String getDecription(){
-        return description;
     }
 
     public List<String> getCategories() {
@@ -33,8 +28,5 @@ public class Board {
     public void  setTitle(String title){
         this.title= title;
 
-    }
-    public void setDecription(String description){
-        this.description=description;
     }
 }

@@ -34,7 +34,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
     public void onBindViewHolder(BoardViewHolder holder, int position) {
         Board board = boards.get(position);
         holder.boardTitle.setText(board.getTitle());
-        holder.boardDescription.setText(board.getDecription());
+
 
         holder.itemView.setOnClickListener(v -> {
                     Intent intent = new Intent(v.getContext(), BoardDetailActivity.class);

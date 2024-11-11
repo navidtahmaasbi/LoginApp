@@ -1,11 +1,10 @@
 package com.example.loginapp.Web;
 
+import com.example.loginapp.BoardRequest;
 import com.example.loginapp.LoginRequest;
 import com.example.loginapp.models.Board;
 import com.example.loginapp.models.Card;
 import com.example.loginapp.models.Category;
-import com.example.loginapp.models.Project;
-import com.example.loginapp.models.Task;
 import com.example.loginapp.RegisterRequest;
 import com.example.loginapp.models.User;
 
@@ -19,7 +18,6 @@ import retrofit2.http.POST;
 import retrofit2.Call;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface AuthService {
     @POST("register")

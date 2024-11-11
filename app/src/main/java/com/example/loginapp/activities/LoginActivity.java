@@ -27,6 +27,7 @@ import com.example.loginapp.R;
 public class LoginActivity extends AppCompatActivity {
     private EditText edittextLoginEmail, edittextLoginPwd;
     private ProgressBar progressBar;
+    private BoardActivity boardActivity;
 
 
     @Override
@@ -84,14 +85,19 @@ public class LoginActivity extends AppCompatActivity {
                     AuthResponse authResponse = response.body();
                     if (authResponse != null) {
                         String token = authResponse.getAccessToken();
+                        int userId = authResponse.getUserId();
 
                         // Save the token in SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("token", "Bearer " + token);
+                        editor.putInt("userId",userId);
                         editor.apply();
 
+
+
                         Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_LONG).show();
+
                         // Navigate to the User Profile Activity or another destination
 //                        Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
                         Intent intent = new Intent(LoginActivity.this, BoardActivity.class);
@@ -116,4 +122,5 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 }

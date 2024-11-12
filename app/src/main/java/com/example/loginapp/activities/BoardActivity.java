@@ -48,6 +48,9 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         setContentView(R.layout.activity_board);
 
 
+        repository = new Repository();
+
+
 
         recyclerViewBoards = findViewById(R.id.recyclerViewBoards);
         buttonCreateBoard = findViewById(R.id.buttonCreateBoard);
@@ -61,13 +64,10 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         recyclerViewBoards.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
 
-        if (boards.isEmpty()) {
-            recyclerViewBoards.setVisibility(RecyclerView.GONE);
-            buttonCreateBoard.setVisibility(RecyclerView.VISIBLE);
-        } else {
             recyclerViewBoards.setVisibility(RecyclerView.VISIBLE);
             buttonCreateBoard.setVisibility(RecyclerView.VISIBLE);
-        }
+
+
 
         buttonCreateBoard.setOnClickListener(v -> {
             showCreateBoardDialog();
@@ -101,27 +101,16 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
         itemTouchHelper.attachToRecyclerView(recyclerViewBoards);
 
+
+
     }
-//    private void createBoardRequest(int userId, Board board, String token){
-//
-////        repository = new Repository(authService);
-//        repository.createBoard(userId, board, token, new RepositoryCallback<Board>() {
-//            @Override
-//            public void onSuccess(Board board) {
-//                boards.add(board);
-//                boardAdapter.notifyItemInserted(boards.size()-1);
-//                Toast.makeText(BoardActivity.this, "Board Created",Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(String message) {
-//                Toast.makeText(BoardActivity.this, "Error creating board",Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-//        recyclerViewBoards.setVisibility(RecyclerView.VISIBLE);
-//        buttonCreateBoard.setVisibility(RecyclerView.VISIBLE);
-//    }
+    protected void onStart(){
+        super.onStart();
+        int userId = getuserId();
+        String token= getToken();
+        getBoards(userId,token);
+    }
+
 
 
     private void showCreateBoardDialog() {
@@ -143,17 +132,17 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
                 String token = getToken();
 
 
-//                boards.add(board);
                 createCategoriesForBoard(board);
                 boardAdapter.notifyDataSetChanged();
-//                boardAdapter.notifyItemInserted(boards.size()-1);
                 createBoard(userId, board, token);
 
-                recyclerViewBoards.setVisibility(View.VISIBLE);
-                buttonCreateBoard.setVisibility(View.VISIBLE);
+                Intent intent = new Intent(BoardActivity.this, BoardDetailActivity.class);
+                intent.putExtra("boardTitle", boardName);  // Pass the board name to the detail activity
+                startActivity(intent);
 
 
-//                Toast.makeText(BoardActivity.this, "Board Created", Toast.LENGTH_SHORT).show();
+
+
             } else {
                 Toast.makeText(BoardActivity.this, "Please enter a board name", Toast.LENGTH_SHORT).show();
 
@@ -163,77 +152,68 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
         builder.show();
     }
-
     private void createBoard(int userId, Board board, String token) {
-        // Define the Retrofit instance
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000/api/") // Change this to your actual base URL
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        // Define the API service interface
-        AuthService authService = retrofit.create(AuthService.class);
-
-        // Make the API call to create the board
-        Call<Board> call = authService.createBoard(userId, board, "Bearer " + token);
-        call.enqueue(new Callback<Board>() {
+        repository.createBoard(userId, board, token, new Callback<Board>() {
             @Override
             public void onResponse(@NonNull Call<Board> call, @NonNull Response<Board> response) {
                 if (response.isSuccessful()) {
-                    // If successful, update UI with the newly created board
-                    Board board = response.body();
-                    if (board != null) {
-                        boards.add(board); // Add the created board to the list
-                        boardAdapter.notifyItemInserted(boards.size() - 1); // Notify adapter to update RecyclerView
+                    Board createdBoard = response.body();
+                    if (createdBoard != null) {
+                        // Update UI with the newly created board
+                        boards.add(createdBoard);
+                        boardAdapter.notifyItemInserted(boards.size() - 1);  // Update RecyclerView
                         Toast.makeText(BoardActivity.this, "Board Created Successfully", Toast.LENGTH_SHORT).show();
+                        // Add to your RecyclerView or list of boards as needed
                     }
                 } else {
-                    // If the response is not successful, show an error
                     Toast.makeText(BoardActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Board> call, @NonNull Throwable t) {
-                // Handle failure, such as network issues or timeout
                 Toast.makeText(BoardActivity.this, "Error creating board: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Optionally, you can hide or show buttons, RecyclerView visibility here
+        // Update visibility as needed
         recyclerViewBoards.setVisibility(View.VISIBLE);
         buttonCreateBoard.setVisibility(View.VISIBLE);
     }
 
-    public void getBoards(int userId, String token) {
 
-        AuthService authService = ApiClient.getRetrofitInstance(null).create(AuthService.class);
 
-        // Make the API call to get boards
-        Call<List<Board>> call = authService.getBoards(userId, "Bearer " + token);
-        call.enqueue(new Callback<List<Board>>() {
+
+    private void getBoards(int userId, String token) {
+        repository.getBoards(userId, token, new Callback<List<Board>>() {
             @Override
             public void onResponse(@NonNull Call<List<Board>> call, @NonNull Response<List<Board>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Successfully retrieved the list of boards
-                    List<Board> retrievedBoards = response.body();
-                    boards.clear();               // Clear existing boards if any
-                    boards.addAll(retrievedBoards); // Add retrieved boards to the list
-                    boardAdapter.notifyDataSetChanged(); // Notify adapter to refresh the RecyclerView
-                    Toast.makeText(BoardActivity.this, "Boards loaded", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()) {
+                    List<Board> fetchedBoards = response.body();
+                    if (fetchedBoards != null && !fetchedBoards.isEmpty()) {
+                        // Clear current list and add the fetched boards
+                        boards.clear();
+                        boards.addAll(fetchedBoards);
+
+                        // Notify adapter to refresh the RecyclerView
+                        boardAdapter.notifyItemInserted(boards.size() - 1);  // Update RecyclerView
+//                        Toast.makeText(BoardActivity.this, "Boards fetched successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(BoardActivity.this, "No boards found", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    // If the response is not successful, show an error message
-                    Toast.makeText(BoardActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BoardActivity.this, "Error fetching boards: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Board>> call, @NonNull Throwable t) {
-                // Handle failure, such as network issues
-                Toast.makeText(BoardActivity.this, "Error loading boards: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(BoardActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
 
 
 

@@ -51,13 +51,11 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewHol
 
     public class BoardViewHolder extends RecyclerView.ViewHolder {
         TextView boardTitle;
-        TextView boardDescription;
         // Define the views here (e.g., TextView, ImageView)
 
         public BoardViewHolder(View itemView) {
             super(itemView);
             boardTitle = itemView.findViewById(R.id.boardTitle);
-            boardDescription = itemView.findViewById(R.id.boardDescription);  // Assuming this TextView exists in item_board.xml
 
         }
     }

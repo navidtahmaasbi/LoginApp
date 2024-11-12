@@ -23,17 +23,23 @@ import com.example.loginapp.Web.AuthResponse;
 import com.example.loginapp.Web.AuthService;
 import com.example.loginapp.LoginRequest;
 import com.example.loginapp.R;
+import com.example.loginapp.models.Board;
+import com.example.loginapp.repository.Repository;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText edittextLoginEmail, edittextLoginPwd;
     private ProgressBar progressBar;
-    private BoardActivity boardActivity;
+    private Repository repository;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        repository = new Repository();
 
         getSupportActionBar().setTitle("login");
 
@@ -65,11 +71,13 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
                     loginuser(textEmail, textPwd);
+
                 }
             }
         });
 
     }
+
 
     private void loginuser(String textEmail, String textPwd) {
         AuthService authService = ApiClient.getRetrofitInstance(null).create(AuthService.class);

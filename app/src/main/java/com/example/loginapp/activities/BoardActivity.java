@@ -212,7 +212,7 @@ public class BoardActivity extends AppCompatActivity implements BoardAdapter.OnB
             }
         });
     }
-    ............
+
 
 
 

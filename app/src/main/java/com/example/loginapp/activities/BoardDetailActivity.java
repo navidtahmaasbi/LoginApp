@@ -26,7 +26,7 @@ public class BoardDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_detail);
 
-        boardTitle = findViewById(R.id.boardTitle);
+//        boardTitle = findViewById(R.id.boardTitle);
         recyclerViewCategories = findViewById(R.id.recyclerViewCategories);
 
         if (recyclerViewCategories != null) {
@@ -34,18 +34,18 @@ public class BoardDetailActivity extends AppCompatActivity {
         }
 
         // Retrieve the board name from the Intent and set it to boardTitle
-        String title = getIntent().getStringExtra("boardTitle");
-        if (boardTitle != null && title != null) {
-            boardTitle.setText(title);
-        } else {
-            // Handle the case where the title is not passed (should not happen if passed correctly)
-            boardTitle.setText("Board Title");
-        }
+//        String title = getIntent().getStringExtra("boardTitle");
+//        if (boardTitle != null && title != null) {
+//            boardTitle.setText(title);
+//        } else {
+//            // Handle the case where the title is not passed (should not happen if passed correctly)
+//            boardTitle.setText("boardTitle");
+//        }
         
 
         // Initialize categories for this board
         categories = new ArrayList<>();
-        categories.add(new Category("To Dooooooooo"));
+        categories.add(new Category("To Do"));
         categories.add(new Category("Doing"));
         categories.add(new Category("Done"));
 

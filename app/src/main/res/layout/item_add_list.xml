@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/addListButton"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:padding="16dp"
+        android:layout_margin="20dp"
+        android:text="Add List"
+        android:textColor="@android:color/white" />
+
+    <EditText
+        android:id="@+id/addCategoryEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:hint="Enter list name"
+        android:background="@android:color/white" />
+
+    <ImageButton
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/check"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/btnSave"
+        android:visibility="gone"
+        android:src="@drawable/cancel" />
+</RelativeLayout>
